@@ -7,6 +7,6 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 
 client = MongoClient(MONGO_URI)
-db = client["autostylist"]
+db = client["autostylist1111"]
 
 wardrobe_collection = db["wardrobe"]
