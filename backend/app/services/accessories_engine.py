@@ -47,7 +47,10 @@ def select_best_shoes(shoes, outfit, context):
     best_score = -1
     selected = None
 
-    top_color = outfit["top"].get("dominant_color")
+    if "full_body" in outfit:
+        top_color = outfit["full_body"].get("dominant_color")
+    else:
+        top_color = outfit["top"].get("dominant_color")
 
     for shoe in shoes:
 

@@ -6,12 +6,17 @@ from datetime import datetime
 class WardrobeItem(BaseModel):
     category: str = Field(
         ...,
-        description="top | bottom | shoes | accessories | jewellery"
+        description="top | bottom | shoes | accessories | jewellery | full_body"
     )
 
     style: str = Field(
         default="casual",
         description="casual | formal | party | traditional"
+    )
+
+    gender: str = Field(
+        default="male",
+        description="male | female"
     )
 
     # Image

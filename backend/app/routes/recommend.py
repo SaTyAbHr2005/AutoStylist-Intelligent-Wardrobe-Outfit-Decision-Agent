@@ -14,7 +14,7 @@ VALID_OCCASIONS = ["casual", "office", "party", "traditional"]
 
 
 @router.post("/recommend")
-def recommend_outfit(occasion: str = Form(...)):
+def recommend_outfit(occasion: str = Form(...), gender: str = Form("male")):
 
     # -----------------------------
     # Validate input
@@ -48,37 +48,64 @@ def recommend_outfit(occasion: str = Form(...)):
     style_filter = style_map.get(occasion, "casual")
 
     # -----------------------------
+    # Full Body Logic for Female Traditional
+    # -----------------------------
+    full_body_items = []
+    if gender == "female" and occasion == "traditional":
+        full_body_items = list(wardrobe_collection.find({
+            "category": {"$in": ["full_body", "saree", "lehenga"]},
+            "gender": gender
+        }))
+
+    # -----------------------------
     # Fetch wardrobe data
     # -----------------------------
     tops = list(wardrobe_collection.find({
         "category": "top",
-        "style": style_filter
+        "style": style_filter,
+        "gender": gender
     }))
 
     bottoms = list(wardrobe_collection.find({
         "category": "bottom",
-        "style": style_filter
+        "style": style_filter,
+        "gender": gender
     }))
 
     shoes = list(wardrobe_collection.find({
-        "category": "shoes"
+        "category": "shoes",
+        "gender": gender
     }))
 
     accessories = list(wardrobe_collection.find({
-        "category": "accessories"
+        "category": "accessories",
+        "gender": gender
     }))
 
     jewellery = list(wardrobe_collection.find({
-        "category": "jewellery"
+        "category": "jewellery",
+        "gender": gender
     }))
 
-    if not tops or not bottoms:
-        return {"error": "Not enough wardrobe items for this occasion"}
+    if full_body_items:
+        # Sort by preference score (descending)
+        full_body_items.sort(key=lambda x: x.get("preference_score", 0), reverse=True)
+        
+        ranked_outfits = []
+        # Create mock "outfit" objects with a single "full_body" item
+        for i, item in enumerate(full_body_items[:3]):
+             ranked_outfits.append({
+                 "full_body": item,
+                 "score": round(1.0 - (i * 0.1), 2) # Mock score
+             })
+    else:
+        if not tops or not bottoms:
+            return {"error": "Not enough wardrobe items for this occasion"}
 
-    # -----------------------------
-    # Module 3 — Outfit Decision
-    # -----------------------------
-    ranked_outfits = generate_ranked_outfits(tops, bottoms, context)
+        # -----------------------------
+        # Module 3 — Outfit Decision
+        # -----------------------------
+        ranked_outfits = generate_ranked_outfits(tops, bottoms, context)
 
     if not ranked_outfits:
         return {"error": "No suitable outfit found"}
@@ -101,6 +128,11 @@ def recommend_outfit(occasion: str = Form(...)):
     def format_outfit(outfit):
         if not outfit:
             return None
+        if "full_body" in outfit:
+             return {
+                 "full_body": outfit["full_body"].get("image_path"),
+                 "score": outfit["score"]
+             }
         return {
             "top": outfit["top"].get("image_path"),
             "bottom": outfit["bottom"].get("image_path"),

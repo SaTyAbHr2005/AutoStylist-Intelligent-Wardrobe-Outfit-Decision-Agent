@@ -12,7 +12,8 @@ router = APIRouter()
 async def upload_item(
     file: UploadFile = File(...),
     category: str = Form(...),
-    style: str = Form("casual")
+    style: str = Form("casual"),
+    gender: str = Form("male")
 ):
 
     ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]
@@ -31,6 +32,7 @@ async def upload_item(
     item = {
         "category": category,
         "style": style,
+        "gender": gender,
         "colors": colors,
         "dominant_color": colors[0],
         "color_count": len(colors),
