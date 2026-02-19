@@ -14,6 +14,12 @@ async def upload_item(
     category: str = Form(...),
     style: str = Form("casual")
 ):
+
+    ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]
+
+    if file.content_type not in ALLOWED_TYPES:
+        return {"error": "Only JPG, PNG, WEBP allowed"}
+
     # Process image
     processed_path = process_image(file)
 
