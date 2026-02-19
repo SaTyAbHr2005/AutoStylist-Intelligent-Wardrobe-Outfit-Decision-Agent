@@ -5,8 +5,8 @@ from datetime import datetime
 
 class WardrobeItem(BaseModel):
     category: str = Field(
-        ..., 
-        description="top | bottom | shoes | accessory | jewellery"
+        ...,
+        description="top | bottom | shoes | accessories | jewellery"
     )
 
     style: str = Field(
@@ -14,9 +14,8 @@ class WardrobeItem(BaseModel):
         description="casual | formal | party | traditional"
     )
 
-    # Image paths
+    # Image
     image_path: str
-    processed_image_path: Optional[str] = None
 
     # Color information
     colors: List[List[int]] = Field(
@@ -38,15 +37,19 @@ class WardrobeItem(BaseModel):
     )
 
     # Learning & tracking
-    preference_score: int = 0
+    preference_score: int = Field(
+        default=0,
+        description="User preference score (-5 to +5)"
+    )
     usage_count: int = 0
+    last_used: Optional[datetime] = None
 
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         schema_extra = {
             "example": {
-                "category": "accessory",
+                "category": "accessories",
                 "style": "casual",
                 "image_path": "static/processed/silver_watch.png",
                 "colors": [[192, 192, 192]],

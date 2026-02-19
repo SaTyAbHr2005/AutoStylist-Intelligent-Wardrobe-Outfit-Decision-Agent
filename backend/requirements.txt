@@ -8,4 +8,5 @@ opencv-python
 python-dotenv
 rembg
 numpy<2.0.0
-scikit-learn
+scikit-learn==1.5.2
+onnxruntime
