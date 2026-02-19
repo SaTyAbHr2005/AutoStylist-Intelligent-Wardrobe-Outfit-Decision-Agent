@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pymongo
+python-multipart
+pillow
+colorgram.py
+opencv-python
+python-dotenv
+rembg
+numpy<2.0.0
+scikit-learn
