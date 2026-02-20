@@ -4,6 +4,11 @@ from datetime import datetime
 
 
 class WardrobeItem(BaseModel):
+    user_id: str = Field(
+        ...,
+        description="Reference to the User's document ID"
+    )
+
     category: str = Field(
         ...,
         description="top | bottom | shoes | accessories | jewellery | full_body"
@@ -20,7 +25,10 @@ class WardrobeItem(BaseModel):
     )
 
     # Image
-    image_path: str
+    image_path: str = Field(
+        ...,
+        description="Cloudinary secure URL or local path"
+    )
 
     # Color information
     colors: List[List[int]] = Field(
@@ -54,9 +62,10 @@ class WardrobeItem(BaseModel):
     class Config:
         schema_extra = {
             "example": {
+                "user_id": "60a12b9...",
                 "category": "accessories",
                 "style": "casual",
-                "image_path": "static/processed/silver_watch.png",
+                "image_path": "https://res.cloudinary.com/.../silver_watch.png",
                 "colors": [[192, 192, 192]],
                 "dominant_color": [192, 192, 192],
                 "color_count": 1,

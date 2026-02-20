@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Form, Depends
 from datetime import datetime
 from app.config.db import wardrobe_collection
+from app.services.auth_service import get_current_user
 
 router = APIRouter()
 
@@ -11,8 +12,8 @@ MIN_PREF = -5
 # -------------------------------------------------
 # Preference Update Helper
 # -------------------------------------------------
-def update_preference(image_path, change):
-    item = wardrobe_collection.find_one({"image_path": image_path})
+def update_preference(image_path, change, user_id):
+    item = wardrobe_collection.find_one({"image_path": image_path, "user_id": user_id})
     if not item:
         return
 
@@ -23,14 +24,14 @@ def update_preference(image_path, change):
     new_score = max(MIN_PREF, min(MAX_PREF, new_score))
 
     wardrobe_collection.update_one(
-        {"image_path": image_path},
+        {"image_path": image_path, "user_id": user_id},
         {"$set": {"preference_score": new_score}}
     )
 
 
-def update_usage(image_path):
+def update_usage(image_path, user_id):
     wardrobe_collection.update_one(
-        {"image_path": image_path},
+        {"image_path": image_path, "user_id": user_id},
         {
             "$inc": {"usage_count": 1},
             "$set": {"last_used": datetime.utcnow()}
@@ -52,7 +53,8 @@ def feedback(
     average_top: str = Form(...),
     average_bottom: str = Form(...),
 
-    action: str = Form(...)
+    action: str = Form(...),
+    current_user: dict = Depends(get_current_user)
 ):
     """
     action = like | dislike | wear
@@ -87,19 +89,19 @@ def feedback(
     if action in ["like", "dislike"]:
         # Update selected
         for top, bottom in selected:
-            update_preference(top, selected_change)
-            update_preference(bottom, selected_change)
+            update_preference(top, selected_change, str(current_user["_id"]))
+            update_preference(bottom, selected_change, str(current_user["_id"]))
 
         # Update others
         for top, bottom in others:
-            update_preference(top, others_change)
-            update_preference(bottom, others_change)
+            update_preference(top, others_change, str(current_user["_id"]))
+            update_preference(bottom, others_change, str(current_user["_id"]))
 
     # -------------------------------------------------
     # Wear Action
     # -------------------------------------------------
     if action == "wear":
-        update_usage(selected_top)
-        update_usage(selected_bottom)
+        update_usage(selected_top, str(current_user["_id"]))
+        update_usage(selected_bottom, str(current_user["_id"]))
 
     return {"message": "Relative feedback recorded"}

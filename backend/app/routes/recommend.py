@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Form, Depends
 from app.services.context_service import get_weather
 from app.config.db import wardrobe_collection
+from app.services.auth_service import get_current_user
 from app.services.decision_engine import generate_ranked_outfits
 from app.services.accessories_engine import (
     select_best_shoes,
@@ -14,7 +15,11 @@ VALID_OCCASIONS = ["casual", "office", "party", "traditional"]
 
 
 @router.post("/recommend")
-def recommend_outfit(occasion: str = Form(...), gender: str = Form("male")):
+def recommend_outfit(
+    occasion: str = Form(...),
+    gender: str = Form("male"),
+    current_user: dict = Depends(get_current_user)
+):
 
     # -----------------------------
     # Validate input
@@ -53,6 +58,7 @@ def recommend_outfit(occasion: str = Form(...), gender: str = Form("male")):
     full_body_items = []
     if gender == "female" and occasion == "traditional":
         full_body_items = list(wardrobe_collection.find({
+            "user_id": str(current_user["_id"]),
             "category": {"$in": ["full_body", "saree", "lehenga"]},
             "gender": gender
         }))
@@ -61,28 +67,33 @@ def recommend_outfit(occasion: str = Form(...), gender: str = Form("male")):
     # Fetch wardrobe data
     # -----------------------------
     tops = list(wardrobe_collection.find({
+        "user_id": str(current_user["_id"]),
         "category": "top",
         "style": style_filter,
         "gender": gender
     }))
 
     bottoms = list(wardrobe_collection.find({
+        "user_id": str(current_user["_id"]),
         "category": "bottom",
         "style": style_filter,
         "gender": gender
     }))
 
     shoes = list(wardrobe_collection.find({
+        "user_id": str(current_user["_id"]),
         "category": "shoes",
         "gender": gender
     }))
 
     accessories = list(wardrobe_collection.find({
+        "user_id": str(current_user["_id"]),
         "category": "accessories",
         "gender": gender
     }))
 
     jewellery = list(wardrobe_collection.find({
+        "user_id": str(current_user["_id"]),
         "category": "jewellery",
         "gender": gender
     }))
