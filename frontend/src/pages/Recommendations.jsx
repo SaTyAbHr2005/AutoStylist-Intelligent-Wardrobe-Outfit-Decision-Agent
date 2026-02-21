@@ -51,6 +51,35 @@ export default function Recommendations() {
         </div>
 
         <div className="occasion-selector">
+          <h2>Select Gender</h2>
+          <div className="occasions-list">
+            {genders.map((g) => (
+              <div
+                key={g.value}
+                className={`occasion-option ${gender === g.value ? 'selected' : ''}`}
+                onClick={() => {
+                  setGender(g.value);
+                  setRecommendations(null);
+                  setError('');
+                }}
+              >
+                <div className="occasion-header">
+                  <span className="occasion-label">{g.label}</span>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value={g.value}
+                    checked={gender === g.value}
+                    onChange={() => setGender(g.value)}
+                    className="occasion-radio"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="occasion-selector" style={{ marginTop: '2rem' }}>
           <h2>Select Your Occasion</h2>
           <div className="occasions-list">
             {occasions.map((occ) => (
@@ -75,35 +104,6 @@ export default function Recommendations() {
                   />
                 </div>
                 <p className="occasion-desc">{occ.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="occasion-selector" style={{ marginTop: '2rem' }}>
-          <h2>Select Preference</h2>
-          <div className="occasions-list">
-            {genders.map((g) => (
-              <div
-                key={g.value}
-                className={`occasion-option ${gender === g.value ? 'selected' : ''}`}
-                onClick={() => {
-                  setGender(g.value);
-                  setRecommendations(null);
-                  setError('');
-                }}
-              >
-                <div className="occasion-header">
-                  <span className="occasion-label">{g.label}</span>
-                  <input
-                    type="radio"
-                    name="gender"
-                    value={g.value}
-                    checked={gender === g.value}
-                    onChange={() => setGender(g.value)}
-                    className="occasion-radio"
-                  />
-                </div>
               </div>
             ))}
           </div>

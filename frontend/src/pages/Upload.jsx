@@ -14,9 +14,12 @@ export default function Upload() {
   const [colors, setColors] = useState([]);
   const [preview, setPreview] = useState(null);
 
-  const categories = ['top', 'bottom', 'shoes', 'accessories', 'jewellery'];
+  const baseCategories = ['top', 'bottom', 'shoes', 'accessories', 'jewellery'];
+  const femaleExclusiveCategories = ['full_body', 'saree', 'lehenga'];
+  const categories = gender === 'female' ? [...baseCategories, ...femaleExclusiveCategories] : baseCategories;
+
   const styles = ['casual', 'formal', 'party', 'traditional'];
-  const genders = ['male', 'female', 'unisex'];
+  const genders = ['male', 'female'];
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files?.[0];
@@ -83,6 +86,31 @@ export default function Upload() {
           <div className="upload-form-section">
             <form onSubmit={handleSubmit} className="upload-form">
               <div className="form-group">
+                <label htmlFor="gender" className="form-label">
+                  Gender *
+                </label>
+                <select
+                  id="gender"
+                  value={gender}
+                  onChange={(e) => {
+                    setGender(e.target.value);
+                    // Reset category to 'top' if male is selected and a female-exclusive category was previously selected
+                    if (e.target.value === 'male' && femaleExclusiveCategories.includes(category)) {
+                      setCategory('top');
+                    }
+                  }}
+                  className="form-control"
+                  disabled={loading}
+                >
+                  {genders.map((g) => (
+                    <option key={g} value={g}>
+                      {g.charAt(0).toUpperCase() + g.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
                 <label htmlFor="category" className="form-label">
                   Category *
                 </label>
@@ -95,7 +123,7 @@ export default function Upload() {
                 >
                   {categories.map((cat) => (
                     <option key={cat} value={cat}>
-                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                      {cat.replace('_', ' ').charAt(0).toUpperCase() + cat.replace('_', ' ').slice(1)}
                     </option>
                   ))}
                 </select>
@@ -115,25 +143,6 @@ export default function Upload() {
                   {styles.map((s) => (
                     <option key={s} value={s}>
                       {s.charAt(0).toUpperCase() + s.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="gender" className="form-label">
-                  Gender
-                </label>
-                <select
-                  id="gender"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  className="form-control"
-                  disabled={loading}
-                >
-                  {genders.map((g) => (
-                    <option key={g} value={g}>
-                      {g.charAt(0).toUpperCase() + g.slice(1)}
                     </option>
                   ))}
                 </select>
