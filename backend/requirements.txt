@@ -10,3 +10,9 @@ rembg
 numpy<2.0.0
 scikit-learn==1.5.2
 onnxruntime
+cloudinary
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt
+pydantic
+pydantic[email]
