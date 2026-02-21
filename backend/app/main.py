@@ -1,9 +1,31 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from app.routes import upload, recommend
+from fastapi.middleware.cors import CORSMiddleware
+from app.routes import upload, recommend, wardrobe
 from app.config.db import db
+from app.routes import feedback, auth
 
 app = FastAPI()
+
+# Enable CORS for frontend dev servers
+origins = [
+    "http://localhost",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+    "http://localhost:5175",
+    "http://127.0.0.1:5175",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Root test
 @app.get("/")
@@ -12,8 +34,11 @@ def home():
 
 
 # API Routes
+app.include_router(auth.router, prefix="/api/auth")
 app.include_router(upload.router, prefix="/api")
 app.include_router(recommend.router, prefix="/api")
+app.include_router(feedback.router, prefix="/api")
+app.include_router(wardrobe.router, prefix="/api")
 
 
 # Static files (processed images)
