@@ -1,16 +1,108 @@
-# React + Vite
+# AutoStylist Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, professional React frontend for the AutoStylist Intelligent Wardrobe & Outfit Decision Agent.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✨ **Professional UI Design**
+- Modern gradient color scheme with primary (Indigo), secondary (Pink), and accent colors
+- Responsive design for desktop, tablet, and mobile devices
+- Smooth animations and transitions
+- Professional typography and spacing
 
-## React Compiler
+👕 **Complete Wardrobe Management**
+- Upload wardrobe items with category and style classification
+- View and organize items by category
+- Display extracted color palettes for each item
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🎯 **Smart Recommendations**
+- Get personalized outfit recommendations for different occasions
+- Casual, Office/Professional, Party, Traditional
 
-## Expanding the ESLint configuration
+📊 **Context-Aware Suggestions**
+- Real-time weather integration
+- Location-specific recommendations
+- Occasion-based styling
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+💬 **Feedback System**
+- Like/Dislike outfit recommendations
+- "Wear This" action to track usage
+- Machine learning model improvement through feedback
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+├── pages/              # Full page components
+├── services/           # API integration
+├── styles/             # CSS modules for components
+├── App.jsx             # Main app component
+├── main.jsx            # Entry point
+└── index.css           # Global styles
+```
+
+## Pages
+
+### 🏠 Home Page
+- Hero section with CTA buttons
+- Feature showcase
+- Getting started guide
+- Occasion selector cards
+
+### 📸 Upload Page
+- File upload with preview
+- Category selection (Top, Bottom, Shoes, Accessories, Jewellery)
+- Style selection (Casual, Formal, Party, Traditional)
+- Extracted color display
+- Success feedback with uploaded image
+
+### ✨ Recommendations Page
+- Occasion selector with radio buttons
+- Context information display (weather, location, temperature)
+- Three-tier outfit recommendations
+- Feedback buttons (Like, Dislike, Wear This)
+- Suggested extras (shoes, accessories, jewellery)
+
+### 👕 Wardrobe Management Page
+- Statistics dashboard
+- Category filtering
+- Grid view of wardrobe items
+- Color palette display per item
+
+## Getting Started
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+3. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+## Technologies Used
+
+- React 19.2.0
+- React Router DOM
+- Axios
+- Vite
+- CSS3
+
+## Browser Support
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## License
+
+© 2026 AutoStylist. All rights reserved.
+

@@ -1,0 +1,145 @@
+.recommendations-page {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.recommendations-container {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.recommendations-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.recommendations-header h1 {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.occasion-selector {
+  margin-bottom: 3rem;
+}
+
+.occasion-selector h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.occasions-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.occasion-option {
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.occasion-option:hover {
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-md);
+}
+
+.occasion-option.selected {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-md);
+}
+
+.occasion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.occasion-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.occasion-radio {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.occasion-desc {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.get-recommendations-btn-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.btn-large {
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+}
+
+.placeholder {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  border: 2px dashed var(--border-color);
+}
+
+.placeholder p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .recommendations-page {
+    padding: 1rem;
+  }
+
+  .recommendations-container {
+    padding: 1rem;
+  }
+
+  .occasions-list {
+    grid-template-columns: 1fr;
+  }
+
+  .recommendations-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .btn-large {
+    width: 100%;
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .recommendations-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .recommendations-header p {
+    font-size: 0.95rem;
+  }
+}

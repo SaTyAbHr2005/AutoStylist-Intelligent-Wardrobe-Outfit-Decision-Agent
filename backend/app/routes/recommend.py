@@ -63,6 +63,8 @@ def recommend_outfit(
             "gender": gender
         }))
 
+    gender_filter = {"$in": [gender, "unisex", None]}
+
     # -----------------------------
     # Fetch wardrobe data
     # -----------------------------
@@ -70,32 +72,32 @@ def recommend_outfit(
         "user_id": str(current_user["_id"]),
         "category": "top",
         "style": style_filter,
-        "gender": gender
+        "gender": gender_filter
     }))
 
     bottoms = list(wardrobe_collection.find({
         "user_id": str(current_user["_id"]),
         "category": "bottom",
         "style": style_filter,
-        "gender": gender
+        "gender": gender_filter
     }))
 
     shoes = list(wardrobe_collection.find({
         "user_id": str(current_user["_id"]),
         "category": "shoes",
-        "gender": gender
+        "gender": gender_filter
     }))
 
     accessories = list(wardrobe_collection.find({
         "user_id": str(current_user["_id"]),
         "category": "accessories",
-        "gender": gender
+        "gender": gender_filter
     }))
 
     jewellery = list(wardrobe_collection.find({
         "user_id": str(current_user["_id"]),
         "category": "jewellery",
-        "gender": gender
+        "gender": gender_filter
     }))
 
     if full_body_items:
@@ -127,27 +129,55 @@ def recommend_outfit(
     average = ranked_outfits[2] if len(ranked_outfits) > 2 else None
 
     # -----------------------------
-    # Module 4 — Extras based on BEST
-    # -----------------------------
-    selected_shoes = select_best_shoes(shoes, best, context)
-    selected_accessories = select_accessories(accessories, occasion)
-    selected_jewellery = select_jewellery(jewellery, occasion)
-
-    # -----------------------------
     # Response Formatter
     # -----------------------------
     def format_outfit(outfit):
         if not outfit:
             return None
+            
+        # Select extras specifically for this outfit configuration
+        selected_shoes = select_best_shoes(shoes, outfit, context)
+        selected_accessories = select_accessories(accessories, outfit, context, limit=1)
+        selected_jewellery = select_jewellery(jewellery, outfit, context)
+        
+        extras = {
+            "shoes": {
+                "id": str(selected_shoes["_id"]) if selected_shoes else None,
+                "image_path": selected_shoes.get("image_path") if selected_shoes else None
+            } if selected_shoes else None,
+            "accessories": [
+                {
+                    "id": str(item["_id"]),
+                    "image_path": item.get("image_path")
+                } for item in selected_accessories
+            ] if selected_accessories else [],
+            "jewellery": {
+                "id": str(selected_jewellery["_id"]) if selected_jewellery else None,
+                "image_path": selected_jewellery.get("image_path") if selected_jewellery else None
+            } if selected_jewellery else None
+        }
+
         if "full_body" in outfit:
              return {
-                 "full_body": outfit["full_body"].get("image_path"),
-                 "score": outfit["score"]
+                 "top": {
+                     "id": str(outfit["full_body"]["_id"]),
+                     "image_path": outfit["full_body"].get("image_path")
+                 },
+                 "bottom": None,
+                 "score": outfit["score"],
+                 "extras": extras
              }
         return {
-            "top": outfit["top"].get("image_path"),
-            "bottom": outfit["bottom"].get("image_path"),
-            "score": outfit["score"]
+            "top": {
+                "id": str(outfit["top"]["_id"]),
+                "image_path": outfit["top"].get("image_path")
+            },
+            "bottom": {
+                "id": str(outfit["bottom"]["_id"]),
+                "image_path": outfit["bottom"].get("image_path")
+            },
+            "score": outfit["score"],
+            "extras": extras
         }
 
     return {
@@ -156,19 +186,5 @@ def recommend_outfit(
             "best": format_outfit(best),
             "medium": format_outfit(medium),
             "average": format_outfit(average)
-        },
-        "extras": {
-            "shoes": (
-                selected_shoes.get("image_path")
-                if selected_shoes else None
-            ),
-            "accessories": [
-                item.get("image_path")
-                for item in selected_accessories
-            ] if selected_accessories else [],
-            "jewellery": (
-                selected_jewellery.get("image_path")
-                if selected_jewellery else None
-            )
         }
     }

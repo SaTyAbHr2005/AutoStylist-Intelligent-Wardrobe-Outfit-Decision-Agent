@@ -1,70 +1,40 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-}
-
-.container {
+.app {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
-.gender-selector {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  font-size: 1.2rem;
-  padding: 1rem;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-}
-
-.section {
-  border: 1px solid #ddd;
-  padding: 1.5rem;
-  border-radius: 8px;
+.main-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  align-items: center;
 }
 
-input[type="file"], select, button {
-  padding: 0.5rem;
-  font-size: 1rem;
-}
-
-button {
-  cursor: pointer;
-  background-color: #646cff;
+.footer {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
-  border: none;
-  border-radius: 4px;
+  text-align: center;
+  padding: 2rem;
+  margin-top: 4rem;
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-button:hover {
-  background-color: #535bf2;
+.footer p {
+  margin: 0;
+  font-weight: 500;
 }
 
-.results {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
+@media (max-width: 768px) {
+  .footer {
+    padding: 1.5rem;
+    font-size: 0.95rem;
+  }
 }
 
-.outfit {
-  border: 1px solid #eee;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: #fafafa;
-}
-
-.item img {
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+@media (max-width: 480px) {
+  .footer {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
 }
