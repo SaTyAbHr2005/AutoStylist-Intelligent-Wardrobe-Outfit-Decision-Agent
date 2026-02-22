@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+
+# Load environment variables FIRST
+from dotenv import load_dotenv
+load_dotenv()
+
 from app.routes import upload, recommend, wardrobe
 from app.config.db import db
 from app.routes import feedback, auth

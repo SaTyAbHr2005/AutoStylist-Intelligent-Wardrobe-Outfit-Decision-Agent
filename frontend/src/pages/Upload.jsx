@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { uploadItem } from '../services/api';
+import { uploadItem, BACKEND_BASE_URL } from '../services/api';
 import '../styles/Upload.css';
 
 export default function Upload() {
@@ -205,7 +205,7 @@ export default function Upload() {
             <div className="result-content">
               <div className="result-image">
                 <img
-                  src={uploadedImage.startsWith('http') ? uploadedImage : `http://localhost:8000/static/${uploadedImage}`}
+                  src={uploadedImage.startsWith('http') ? uploadedImage : `${BACKEND_BASE_URL}/static/${uploadedImage}`}
                   alt="Uploaded"
                   className="result-img"
                   onError={(e) => {

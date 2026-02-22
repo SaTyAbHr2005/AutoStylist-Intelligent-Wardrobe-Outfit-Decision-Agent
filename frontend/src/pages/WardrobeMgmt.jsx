@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getWardrobe, getWardrobeByCategory, getWardrobeStats, deleteWardrobeItem } from '../services/api';
+import { getWardrobe, getWardrobeByCategory, getWardrobeStats, deleteWardrobeItem, BACKEND_BASE_URL } from '../services/api';
 import '../styles/WardrobeMgmt.css';
 
 export default function WardrobeMgmt() {
@@ -121,7 +121,7 @@ export default function WardrobeMgmt() {
               <div key={item._id} className="wardrobe-item-card">
                 <div className="item-image" style={{ position: 'relative' }}>
                   <img
-                    src={item.image_path.startsWith('http') ? item.image_path : `http://localhost:8000/static/${item.image_path}`}
+                    src={item.image_path.startsWith('http') ? item.image_path : `${BACKEND_BASE_URL}/static/${item.image_path}`}
                     alt={item.category}
                     onError={(e) => {
                       e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect fill="%23ccc" width="200" height="200"/%3E%3C/svg%3E';

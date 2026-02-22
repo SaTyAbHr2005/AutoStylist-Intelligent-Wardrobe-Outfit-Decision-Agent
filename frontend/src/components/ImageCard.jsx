@@ -1,7 +1,8 @@
+import { BACKEND_BASE_URL } from '../services/api';
 import '../styles/ImageCard.css';
 
 export default function ImageCard({ image, title, colors = [], style = '' }) {
-  const imageUrl = image?.startsWith('http') ? image : `http://localhost:8000/static/${image}`;
+  const imageUrl = image?.startsWith('http') ? image : `${BACKEND_BASE_URL}/static/${image}`;
 
   return (
     <div className="image-card">
