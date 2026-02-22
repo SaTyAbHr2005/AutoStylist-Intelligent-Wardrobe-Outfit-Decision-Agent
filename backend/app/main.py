@@ -10,14 +10,9 @@ app = FastAPI()
 # Enable CORS for frontend dev servers and production
 import os
 origins = [
-    "http://localhost",
     "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:5174",
-    "http://127.0.0.1:5174",
-    "http://localhost:5175",
-    "http://127.0.0.1:5175",
     "http://localhost:3000",
+    "https://autostylist-frontend.onrender.com",
 ]
 
 # Add production frontend URL if set
@@ -65,3 +60,4 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 10000))
     uvicorn.run(app, host="0.0.0.0", port=port)
+
