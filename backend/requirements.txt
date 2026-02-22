@@ -1,5 +1,5 @@
 fastapi
-uvicorn
+uvicorn[standard]
 pymongo
 python-multipart
 pillow
@@ -17,3 +17,5 @@ bcrypt
 pydantic
 pydantic[email]
 PyJWT
+email-validator
+gunicorn

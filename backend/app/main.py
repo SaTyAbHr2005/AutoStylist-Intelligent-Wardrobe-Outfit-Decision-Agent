@@ -7,7 +7,8 @@ from app.routes import feedback, auth
 
 app = FastAPI()
 
-# Enable CORS for frontend dev servers
+# Enable CORS for frontend dev servers and production
+import os
 origins = [
     "http://localhost",
     "http://localhost:5173",
@@ -18,6 +19,14 @@ origins = [
     "http://127.0.0.1:5175",
     "http://localhost:3000",
 ]
+
+# Add production frontend URL if set
+frontend_url = os.getenv("FRONTEND_URL")
+if frontend_url:
+    origins.append(frontend_url)
+
+# Allow all origins for now (tighten in production)
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
